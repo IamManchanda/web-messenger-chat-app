@@ -1,0 +1,17 @@
+{
+  "files.exclude": {
+    "node_modules": true,
+    ".pnp": true,
+    "**/.pnp.js": true,
+    "coverage": true,
+    "build": true,
+    "**/.DS_Store": true,
+    "**/.env.local": false,
+    "**/.env.development.local": false,
+    "**/.env.test.local": false,
+    "**/.env.production.local": false,
+    "**/npm-debug.log*": true,
+    "**/yarn-debug.log*": true,
+    "**/yarn-error.log*": true
+  }
+}
