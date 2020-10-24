@@ -1,7 +1,12 @@
-export default function App() {
+import { Container } from "react-bootstrap";
+import Register from "./pages/register";
+
+const App = () => {
   return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
+    <Container className="pt-5">
+      <Register />;
+    </Container>
   );
-}
+};
+
+export default App;
