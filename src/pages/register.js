@@ -17,7 +17,7 @@ const Register = () => {
   return (
     <Row className="bg-white py-5 justify-content-center">
       <Col sm={8} md={6} lg={4}>
-        <h1 className="text-center mb-3">Register</h1>
+        <h1 className="text-center mb-4">Register</h1>
         <Form onSubmit={handleSubmitRegisterForm}>
           <Form.Group>
             <Form.Label>Email address:</Form.Label>
@@ -79,7 +79,7 @@ const Register = () => {
             />
           </Form.Group>
 
-          <div className="text-center mt-3">
+          <div className="text-center mt-4">
             <Button variant="success" type="submit">
               Register
             </Button>
