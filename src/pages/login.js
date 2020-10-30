@@ -5,7 +5,7 @@ import { LOGIN_USER } from "../constants/graphql/queries";
 import { Link } from "react-router-dom";
 import { useAuthDispatch } from "../context/auth";
 
-const Login = ({ history }) => {
+const LoginPage = ({ history }) => {
   const [variables, setVariables] = useState({
     username: "",
     password: "",
@@ -96,4 +96,4 @@ const Login = ({ history }) => {
   );
 };
 
-export default Login;
+export default LoginPage;

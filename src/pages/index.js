@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { GET_MESSAGES, GET_USERS } from "../constants/graphql/queries";
 import { useAuthDispatch } from "../context/auth";
 
-const Home = ({ history }) => {
+const IndexPage = ({ history }) => {
   const dispatch = useAuthDispatch();
 
   const [selectedUser, setSelectedUser] = useState(null);
@@ -100,4 +100,4 @@ const Home = ({ history }) => {
   );
 };
 
-export default Home;
+export default IndexPage;

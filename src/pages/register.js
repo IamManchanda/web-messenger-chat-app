@@ -4,7 +4,7 @@ import { useMutation } from "@apollo/client";
 import { REGISTER_USER } from "../constants/graphql/mutations";
 import { Link } from "react-router-dom";
 
-const Register = ({ history }) => {
+const RegisterPage = ({ history }) => {
   const [variables, setVariables] = useState({
     username: "",
     email: "",
@@ -135,4 +135,4 @@ const Register = ({ history }) => {
   );
 };
 
-export default Register;
+export default RegisterPage;

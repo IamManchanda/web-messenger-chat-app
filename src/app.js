@@ -1,9 +1,9 @@
 import { Container } from "react-bootstrap";
 import ApolloProvider from "./apollo-provider";
 import { BrowserRouter, Switch } from "react-router-dom";
-import Home from "./pages/home";
-import Login from "./pages/login";
-import Register from "./pages/register";
+import IndexPage from "./pages/index";
+import LoginPage from "./pages/login";
+import RegisterPage from "./pages/register";
 import { AuthProvider } from "./context/auth";
 import DynamicRoute from "./utils/dynamic-route";
 
@@ -14,9 +14,14 @@ const App = () => {
         <BrowserRouter>
           <Container className="pt-5">
             <Switch>
-              <DynamicRoute exact path="/" component={Home} authenticated />
-              <DynamicRoute path="/login" component={Login} guest />
-              <DynamicRoute path="/register" component={Register} guest />
+              <DynamicRoute
+                exact
+                path="/"
+                component={IndexPage}
+                authenticated
+              />
+              <DynamicRoute path="/login" component={LoginPage} guest />
+              <DynamicRoute path="/register" component={RegisterPage} guest />
             </Switch>
           </Container>
         </BrowserRouter>
