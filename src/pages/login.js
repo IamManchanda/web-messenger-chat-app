@@ -16,15 +16,15 @@ const LoginPage = ({ history }) => {
   const dispatch = useAuthDispatch();
 
   const [loginUser, { loading }] = useLazyQuery(LOGIN_USER, {
-    onError(error) {
-      setErrors(error.graphQLErrors[0].extensions.errors);
-    },
     onCompleted(data) {
       dispatch({
         type: "LOGIN",
         payload: data.login,
       });
       history.push("/");
+    },
+    onError(error) {
+      setErrors(error.graphQLErrors[0].extensions.errors);
     },
   });
 

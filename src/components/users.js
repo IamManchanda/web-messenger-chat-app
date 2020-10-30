@@ -1,18 +1,33 @@
 import { useQuery } from "@apollo/client";
 import { Col, Image } from "react-bootstrap";
 import { GET_USERS } from "../constants/graphql/queries";
+import { useMessageState, useMessageDispatch } from "../context/message";
 
 const Users = ({ setSelectedUser }) => {
-  const { loading, data, error } = useQuery(GET_USERS);
+  const dispatch = useMessageDispatch();
+
+  const { users } = useMessageState();
+
+  const { loading } = useQuery(GET_USERS, {
+    onCompleted(data) {
+      dispatch({
+        type: "SET_USERS",
+        payload: data.getUsers,
+      });
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
 
   return (
     <Col xs={4} className="p-0 bg-secondary">
-      {!data || loading ? (
+      {!users || loading ? (
         <p>Loading...</p>
-      ) : data.getUsers.length === 0 ? (
+      ) : users.length === 0 ? (
         <p>No users have joined yet.</p>
-      ) : data.getUsers.length > 0 ? (
-        data.getUsers.map((user) => (
+      ) : users.length > 0 ? (
+        users.map((user) => (
           <div
             className="d-flex p-3"
             key={user.username}
