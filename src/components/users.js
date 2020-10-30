@@ -29,6 +29,7 @@ const Users = ({ setSelectedUser }) => {
       ) : users.length > 0 ? (
         users.map((user) => (
           <div
+            role="button"
             className="d-flex p-3"
             key={user.username}
             onClick={() => setSelectedUser(user.username)}
