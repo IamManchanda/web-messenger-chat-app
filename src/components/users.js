@@ -1,9 +1,11 @@
 import { useQuery } from "@apollo/client";
 import { Col, Image } from "react-bootstrap";
+import classNames from "classnames";
+
 import { GET_USERS } from "../constants/graphql/queries";
 import { useMessageState, useMessageDispatch } from "../context/message";
 
-const Users = ({ setSelectedUser }) => {
+const Users = ({ selectedUser, setSelectedUser }) => {
   const dispatch = useMessageDispatch();
 
   const { users } = useMessageState();
@@ -27,33 +29,39 @@ const Users = ({ setSelectedUser }) => {
       ) : users.length === 0 ? (
         <p>No users have joined yet.</p>
       ) : users.length > 0 ? (
-        users.map((user) => (
-          <div
-            role="button"
-            className="d-flex p-3"
-            key={user.username}
-            onClick={() => setSelectedUser(user.username)}
-          >
-            <Image
-              src={user.imageUrl}
-              roundedCircle
-              className="mr-2"
-              style={{
-                width: 50,
-                height: 50,
-                objectFit: "cover",
-              }}
-            />
-            <div>
-              <p className="text-success">{user.username}</p>
-              <p className="font-weight-light">
-                {user.latestMessage
-                  ? user.latestMessage.content
-                  : "You are now connected"}
-              </p>
+        users.map((user) => {
+          const selected = selectedUser === user.username;
+
+          return (
+            <div
+              role="button"
+              className={classNames("user-container d-flex p-3 border", {
+                "user-container-selected": selected,
+              })}
+              key={user.username}
+              onClick={() => setSelectedUser(user.username)}
+            >
+              <Image
+                src={user.imageUrl}
+                roundedCircle
+                className="mr-2"
+                style={{
+                  width: 50,
+                  height: 50,
+                  objectFit: "cover",
+                }}
+              />
+              <div>
+                <p className="text-success">{user.username}</p>
+                <p className="font-weight-light">
+                  {user.latestMessage
+                    ? user.latestMessage.content
+                    : "You are now connected"}
+                </p>
+              </div>
             </div>
-          </div>
-        ))
+          );
+        })
       ) : null}
     </Col>
   );

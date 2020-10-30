@@ -2,7 +2,7 @@ $blue: #1877f2;
 $green: #42b72a;
 $border-radius: 0;
 $paragraph-margin-bottom: 0;
-$gray-600: rgb(245, 245, 245);
+$gray-600: rgb(250, 250, 250);
 
 @import "~bootstrap/scss/bootstrap";
 
@@ -20,4 +20,14 @@ body {
     rgba(148, 191, 225, 0.9) 50%,
     rgba(252, 254, 184, 0.9) 100%
   );
+}
+
+.user-container {
+  &:hover {
+    background-color: rgb(245, 245, 245);
+  }
+}
+
+.user-container-selected {
+  background-color: rgb(240, 240, 240);
 }
