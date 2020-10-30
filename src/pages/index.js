@@ -1,9 +1,8 @@
-import { useLazyQuery } from "@apollo/client";
-import { Fragment, useEffect, useState } from "react";
-import { Button, Col, Row } from "react-bootstrap";
+import { Fragment, useState } from "react";
+import { Button, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Messages from "../components/messages";
 import Users from "../components/users";
-import { GET_MESSAGES } from "../constants/graphql/queries";
 import { useAuthDispatch } from "../context/auth";
 
 const IndexPage = ({ history }) => {
@@ -17,21 +16,6 @@ const IndexPage = ({ history }) => {
     });
     history.push("/login");
   };
-
-  const [
-    getMessages,
-    { loading: messagesLoading, data: messagesData },
-  ] = useLazyQuery(GET_MESSAGES);
-
-  useEffect(() => {
-    if (selectedUser) {
-      getMessages({
-        variables: {
-          from: selectedUser,
-        },
-      });
-    }
-  }, [getMessages, selectedUser]);
 
   return (
     <Fragment>
@@ -48,15 +32,7 @@ const IndexPage = ({ history }) => {
       </Row>
       <Row className="bg-white">
         <Users selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
-        <Col xs={8}>
-          {messagesData && messagesData.getMessages.length > 0 ? (
-            messagesData.getMessages.map((message) => (
-              <p key={message.uuid}>{message.content}</p>
-            ))
-          ) : (
-            <p>Messages</p>
-          )}
-        </Col>
+        <Messages selectedUser={selectedUser} />
       </Row>
     </Fragment>
   );
