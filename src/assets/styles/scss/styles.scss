@@ -1,6 +1,8 @@
-$blue: #1877F2;
-$green: #42B72A;
+$blue: #1877f2;
+$green: #42b72a;
 $border-radius: 0;
+$paragraph-margin-bottom: 0;
+$gray-600: rgb(245, 245, 245);
 
 @import "~bootstrap/scss/bootstrap";
 
@@ -13,9 +15,9 @@ body {
     rgba(252, 176, 69, 0.9) 100%,
   ); */
   background: linear-gradient(
-    203deg, 
-    rgba(248, 183, 233, 0.9) 0%, 
-    rgba(148, 191, 225, 0.9) 50%, 
-    rgba(252, 254, 184, 0.9) 100%,
+    203deg,
+    rgba(248, 183, 233, 0.9) 0%,
+    rgba(148, 191, 225, 0.9) 50%,
+    rgba(252, 254, 184, 0.9) 100%
   );
 }
