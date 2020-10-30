@@ -1,8 +1,9 @@
-import { useQuery, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { Fragment, useEffect, useState } from "react";
-import { Button, Col, Row, Image } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { GET_MESSAGES, GET_USERS } from "../constants/graphql/queries";
+import Users from "../components/users";
+import { GET_MESSAGES } from "../constants/graphql/queries";
 import { useAuthDispatch } from "../context/auth";
 
 const IndexPage = ({ history }) => {
@@ -16,8 +17,6 @@ const IndexPage = ({ history }) => {
     });
     history.push("/login");
   };
-
-  const { loading, data, error } = useQuery(GET_USERS);
 
   const [
     getMessages,
@@ -34,10 +33,6 @@ const IndexPage = ({ history }) => {
     }
   }, [getMessages, selectedUser]);
 
-  if (messagesData) {
-    console.log(messagesData);
-  }
-
   return (
     <Fragment>
       <Row className="bg-white justify-content-around mb-1">
@@ -52,40 +47,7 @@ const IndexPage = ({ history }) => {
         </Button>
       </Row>
       <Row className="bg-white">
-        <Col xs={4} className="p-0 bg-secondary">
-          {!data || loading ? (
-            <p>Loading...</p>
-          ) : data.getUsers.length === 0 ? (
-            <p>No users have joined yet.</p>
-          ) : data.getUsers.length > 0 ? (
-            data.getUsers.map((user) => (
-              <div
-                className="d-flex p-3"
-                key={user.username}
-                onClick={() => setSelectedUser(user.username)}
-              >
-                <Image
-                  src={user.imageUrl}
-                  roundedCircle
-                  className="mr-2"
-                  style={{
-                    width: 50,
-                    height: 50,
-                    objectFit: "cover",
-                  }}
-                />
-                <div>
-                  <p className="text-success">{user.username}</p>
-                  <p className="font-weight-light">
-                    {user.latestMessage
-                      ? user.latestMessage.content
-                      : "You are now connected"}
-                  </p>
-                </div>
-              </div>
-            ))
-          ) : null}
-        </Col>
+        <Users setSelectedUser={setSelectedUser} />
         <Col xs={8}>
           {messagesData && messagesData.getMessages.length > 0 ? (
             messagesData.getMessages.map((message) => (
