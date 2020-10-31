@@ -60,7 +60,7 @@ const Messages = () => {
 
   const handleSubmitMessage = (event) => {
     event.preventDefault();
-    if (content === "" || !selectedUser) return;
+    if (content.trim() === "" || !selectedUser) return;
     setContent("");
     sendMessage({
       variables: {
@@ -96,13 +96,18 @@ const Messages = () => {
       </div>
       <div>
         <Form onSubmit={handleSubmitMessage}>
-          <Form.Group>
+          <Form.Group className="d-flex align-items-center">
             <Form.Control
               type="text"
               className="message-input rounded-pill p-4 bg-secondary border-0"
               placeholder="Type a message here..."
               value={content}
               onChange={(event) => setContent(event.target.value)}
+            />
+            <i
+              className="fas fa-paper-plane fa-2x text-primary ml-2"
+              onClick={handleSubmitMessage}
+              role="button"
             />
           </Form.Group>
         </Form>
