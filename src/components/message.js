@@ -17,7 +17,6 @@ const Message = ({ message }) => {
           {dayjs(message.createdAt).format("MMM DD, YYYY @ h:mm a")}
         </Tooltip>
       }
-      transition={false}
     >
       <div
         className={classNames("d-flex my-3", {
