@@ -1,13 +1,38 @@
 import { createContext, useReducer, useContext } from "react";
+
 const MessageStateContext = createContext();
 const MessageDispatchContext = createContext();
 
 const messageReducer = (state, { type, payload }) => {
+  let usersCopy;
   switch (type) {
     case "SET_USERS":
       return {
         ...state,
         users: payload,
+      };
+    case "SET_USER_MESSAGES":
+      const { username, messages } = payload;
+      usersCopy = [...state.users];
+      const usersIndex = usersCopy.findIndex((u) => u.username === username);
+      usersCopy[usersIndex] = {
+        ...usersCopy[usersIndex],
+        messages,
+      };
+
+      return {
+        ...state,
+        users: usersCopy,
+      };
+    case "SET_SELECTED_USER":
+      usersCopy = state.users.map((user) => ({
+        ...user,
+        selected: user.username === payload,
+      }));
+
+      return {
+        ...state,
+        users: usersCopy,
       };
     default:
       throw new Error(`Unknown action type: ${type}`);

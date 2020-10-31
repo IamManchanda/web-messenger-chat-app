@@ -5,10 +5,11 @@ import classNames from "classnames";
 import { GET_USERS } from "../constants/graphql/queries";
 import { useMessageState, useMessageDispatch } from "../context/message";
 
-const Users = ({ selectedUser, setSelectedUser }) => {
+const Users = () => {
   const dispatch = useMessageDispatch();
 
   const { users } = useMessageState();
+  const selectedUser = users?.find((u) => u.selected === true)?.username;
 
   const { loading } = useQuery(GET_USERS, {
     onCompleted(data) {
@@ -39,7 +40,12 @@ const Users = ({ selectedUser, setSelectedUser }) => {
                 "user-container-selected": selected,
               })}
               key={user.username}
-              onClick={() => setSelectedUser(user.username)}
+              onClick={() =>
+                dispatch({
+                  type: "SET_SELECTED_USER",
+                  payload: user.username,
+                })
+              }
             >
               <Image
                 src={user.imageUrl}

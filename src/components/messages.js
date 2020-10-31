@@ -2,32 +2,62 @@ import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { Col } from "react-bootstrap";
 import { GET_MESSAGES } from "../constants/graphql/queries";
+import { useMessageState, useMessageDispatch } from "../context/message";
 
-const Messages = ({ selectedUser }) => {
+const Messages = () => {
+  const dispatch = useMessageDispatch();
+
+  const { users } = useMessageState();
+  const selectedUser = users?.find((u) => u.selected === true);
+
+  const messages = selectedUser?.messages;
+
   const [
     getMessages,
     { loading: messagesLoading, data: messagesData },
   ] = useLazyQuery(GET_MESSAGES);
 
   useEffect(() => {
-    if (selectedUser) {
+    if (selectedUser && !selectedUser.messages) {
       getMessages({
         variables: {
-          from: selectedUser,
+          from: selectedUser.username,
         },
       });
     }
   }, [getMessages, selectedUser]);
 
+  useEffect(() => {
+    if (messagesData) {
+      dispatch({
+        type: "SET_USER_MESSAGES",
+        payload: {
+          username: selectedUser.username,
+          messages: messagesData.getMessages,
+        },
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, messagesData]);
+
   return (
     <Col xs={8}>
-      {messagesData && messagesData.getMessages.length > 0 ? (
+      {!messages && !messagesLoading ? (
+        <p>Select a friend</p>
+      ) : messagesLoading ? (
+        <p>Loading...</p>
+      ) : messages.length > 0 ? (
+        messages.map((message) => <p key={message.uuid}>{message.content}</p>)
+      ) : messages.length === 0 ? (
+        <p>You are now connected, send your first message.</p>
+      ) : null}
+      {/* {messagesData && messagesData.getMessages.length > 0 ? (
         messagesData.getMessages.map((message) => (
           <p key={message.uuid}>{message.content}</p>
         ))
       ) : (
         <p>Messages</p>
-      )}
+      )} */}
     </Col>
   );
 };

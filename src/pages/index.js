@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Button, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Messages from "../components/messages";
@@ -7,8 +7,6 @@ import { useAuthDispatch } from "../context/auth";
 
 const IndexPage = ({ history }) => {
   const dispatch = useAuthDispatch();
-
-  const [selectedUser, setSelectedUser] = useState(null);
 
   const handleLogout = () => {
     dispatch({
@@ -31,8 +29,8 @@ const IndexPage = ({ history }) => {
         </Button>
       </Row>
       <Row className="bg-white">
-        <Users selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
-        <Messages selectedUser={selectedUser} />
+        <Users />
+        <Messages />
       </Row>
     </Fragment>
   );
