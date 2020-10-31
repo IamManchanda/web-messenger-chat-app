@@ -36,9 +36,12 @@ const Users = () => {
           return (
             <div
               role="button"
-              className={classNames("user-container d-flex p-3 border", {
-                "user-container-selected": selected,
-              })}
+              className={classNames(
+                "user-container d-flex justify-content-center justify-content-lg-start p-3 border",
+                {
+                  "user-container-selected": selected,
+                },
+              )}
               key={user.username}
               onClick={() =>
                 dispatch({
@@ -47,17 +50,8 @@ const Users = () => {
                 })
               }
             >
-              <Image
-                src={user.imageUrl}
-                roundedCircle
-                className="mr-2"
-                style={{
-                  width: 50,
-                  height: 50,
-                  objectFit: "cover",
-                }}
-              />
-              <div>
+              <Image src={user.imageUrl} className="user-image" />
+              <div className="d-none d-lg-block ml-2">
                 <p className="text-success">{user.username}</p>
                 <p className="font-weight-light">
                   {user.latestMessage

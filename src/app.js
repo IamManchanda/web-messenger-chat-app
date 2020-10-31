@@ -14,18 +14,24 @@ const App = () => {
       <AuthProvider>
         <MessageProvider>
           <BrowserRouter>
-            <Container className="pt-5">
-              <Switch>
-                <DynamicRoute
-                  exact
-                  path="/"
-                  component={IndexPage}
-                  authenticated
-                />
-                <DynamicRoute path="/login" component={LoginPage} guest />
-                <DynamicRoute path="/register" component={RegisterPage} guest />
-              </Switch>
-            </Container>
+            <div className="px-2">
+              <Container className="pt-5">
+                <Switch>
+                  <DynamicRoute
+                    exact
+                    path="/"
+                    component={IndexPage}
+                    authenticated
+                  />
+                  <DynamicRoute path="/login" component={LoginPage} guest />
+                  <DynamicRoute
+                    path="/register"
+                    component={RegisterPage}
+                    guest
+                  />
+                </Switch>
+              </Container>
+            </div>
           </BrowserRouter>
         </MessageProvider>
       </AuthProvider>
