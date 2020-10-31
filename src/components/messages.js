@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { Col } from "react-bootstrap";
 import { GET_MESSAGES } from "../constants/graphql/queries";
@@ -42,14 +42,21 @@ const Messages = () => {
   }, [dispatch, messagesData]);
 
   return (
-    <Col xs={8}>
+    <Col xs={8} className="messages-box d-flex flex-column-reverse">
       {!messages && !messagesLoading ? (
         <p>Select a friend</p>
       ) : messagesLoading ? (
         <p>Loading...</p>
       ) : messages.length > 0 ? (
-        messages.map((message) => (
-          <Message key={message.uuid} message={message} />
+        messages.map((message, index) => (
+          <Fragment key={message.uuid}>
+            <Message message={message} />
+            {index === messages.length - 1 && (
+              <div className="invisible">
+                <hr className="m-0" />
+              </div>
+            )}
+          </Fragment>
         ))
       ) : messages.length === 0 ? (
         <p>You are now connected, send your first message.</p>
