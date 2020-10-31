@@ -1,33 +1,46 @@
 import classNames from "classnames";
 import { useAuthState } from "../context/auth";
+import dayjs from "dayjs";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const Message = ({ message }) => {
   const { user } = useAuthState();
   const sent = message.from === user.username;
   const received = !sent;
+  const placement = sent ? "right" : "left";
 
   return (
-    <div
-      className={classNames("d-flex my-3", {
-        "ml-auto": sent,
-        "mr-auto": received,
-      })}
+    <OverlayTrigger
+      placement={placement}
+      overlay={
+        <Tooltip>
+          {dayjs(message.createdAt).format("MMM DD, YYYY @ h:mm a")}
+        </Tooltip>
+      }
+      transition={false}
     >
       <div
-        className={classNames("py-2 px-3 rounded-pill", {
-          "bg-primary": sent,
-          "bg-secondary": received,
+        className={classNames("d-flex my-3", {
+          "ml-auto": sent,
+          "mr-auto": received,
         })}
       >
-        <p
-          className={classNames({
-            "text-white": sent,
+        <div
+          className={classNames("py-2 px-3 rounded-pill", {
+            "bg-primary": sent,
+            "bg-secondary": received,
           })}
         >
-          {message.content}
-        </p>
+          <p
+            className={classNames({
+              "text-white": sent,
+            })}
+          >
+            {message.content}
+          </p>
+        </div>
       </div>
-    </div>
+    </OverlayTrigger>
   );
 };
 

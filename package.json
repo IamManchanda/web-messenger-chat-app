@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^12.1.10",
     "bootstrap": "^4.5.3",
     "classnames": "^2.2.6",
+    "dayjs": "^1.9.4",
     "graphql": "^15.3.0",
     "jwt-decode": "^3.0.0",
     "node-sass": "^4.14.1",
