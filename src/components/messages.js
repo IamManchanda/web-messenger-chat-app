@@ -3,6 +3,7 @@ import { useLazyQuery } from "@apollo/client";
 import { Col } from "react-bootstrap";
 import { GET_MESSAGES } from "../constants/graphql/queries";
 import { useMessageState, useMessageDispatch } from "../context/message";
+import Message from "./message";
 
 const Messages = () => {
   const dispatch = useMessageDispatch();
@@ -47,7 +48,9 @@ const Messages = () => {
       ) : messagesLoading ? (
         <p>Loading...</p>
       ) : messages.length > 0 ? (
-        messages.map((message) => <p key={message.uuid}>{message.content}</p>)
+        messages.map((message) => (
+          <Message key={message.uuid} message={message} />
+        ))
       ) : messages.length === 0 ? (
         <p>You are now connected, send your first message.</p>
       ) : null}
