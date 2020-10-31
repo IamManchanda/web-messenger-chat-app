@@ -51,13 +51,6 @@ const Messages = () => {
       ) : messages.length === 0 ? (
         <p>You are now connected, send your first message.</p>
       ) : null}
-      {/* {messagesData && messagesData.getMessages.length > 0 ? (
-        messagesData.getMessages.map((message) => (
-          <p key={message.uuid}>{message.content}</p>
-        ))
-      ) : (
-        <p>Messages</p>
-      )} */}
     </Col>
   );
 };
