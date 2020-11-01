@@ -1,15 +1,46 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { Button, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useSubscription } from "@apollo/client";
 import Messages from "../components/messages";
 import Users from "../components/users";
-import { useAuthDispatch } from "../context/auth";
+import { useAuthState, useAuthDispatch } from "../context/auth";
+import { useMessageDispatch } from "../context/message";
+import { NEW_MESSAGE } from "../constants/graphql/subscriptions";
 
 const IndexPage = ({ history }) => {
-  const dispatch = useAuthDispatch();
+  const authDispatch = useAuthDispatch();
+  const messageDispatch = useMessageDispatch();
+
+  const { user } = useAuthState();
+
+  const { data: messageData, error: messageError } = useSubscription(
+    NEW_MESSAGE,
+  );
+
+  useEffect(() => {
+    if (messageError) {
+      console.log(messageError);
+    }
+
+    if (messageData) {
+      const message = messageData.newMessage;
+      const otherUser =
+        user.username === message.to ? message.from : message.to;
+
+      messageDispatch({
+        type: "ADD_MESSAGE",
+        payload: {
+          username: otherUser,
+          message,
+        },
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messageData, messageDispatch, messageError]);
 
   const handleLogout = () => {
-    dispatch({
+    authDispatch({
       type: "LOGOUT",
     });
 

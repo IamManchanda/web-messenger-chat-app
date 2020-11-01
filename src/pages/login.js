@@ -21,7 +21,7 @@ const LoginPage = ({ history }) => {
         type: "LOGIN",
         payload: data.login,
       });
-      history.push("/");
+      window.location.href = "/";
     },
     onError(error) {
       setErrors(error.graphQLErrors[0].extensions.errors);
