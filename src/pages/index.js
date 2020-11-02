@@ -6,7 +6,7 @@ import Messages from "../components/messages";
 import Users from "../components/users";
 import { useAuthState, useAuthDispatch } from "../context/auth";
 import { useMessageDispatch } from "../context/message";
-import { NEW_MESSAGE } from "../constants/graphql/subscriptions";
+import { NEW_MESSAGE, NEW_REACTION } from "../constants/graphql/subscriptions";
 
 const IndexPage = ({ history }) => {
   const authDispatch = useAuthDispatch();
@@ -16,6 +16,10 @@ const IndexPage = ({ history }) => {
 
   const { data: messageData, error: messageError } = useSubscription(
     NEW_MESSAGE,
+  );
+
+  const { data: reactionData, error: reactionError } = useSubscription(
+    NEW_REACTION,
   );
 
   useEffect(() => {
@@ -37,7 +41,30 @@ const IndexPage = ({ history }) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messageData, messageDispatch, messageError]);
+  }, [messageData, messageError]);
+
+  useEffect(() => {
+    if (reactionError) {
+      console.log(reactionError);
+    }
+
+    if (reactionData) {
+      const reaction = reactionData.newReaction;
+      const otherUser =
+        user.username === reaction.message.to
+          ? reaction.message.from
+          : reaction.message.to;
+
+      messageDispatch({
+        type: "ADD_REACTION",
+        payload: {
+          username: otherUser,
+          reaction,
+        },
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reactionData, reactionError]);
 
   const handleLogout = () => {
     authDispatch({

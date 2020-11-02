@@ -5,8 +5,8 @@ const MessageDispatchContext = createContext();
 
 const messageReducer = (state, { type, payload }) => {
   let usersCopy;
-  let usersIndex;
-  const { username, message, messages } = payload;
+  let userIndex;
+  const { username, message, messages, reaction } = payload;
 
   switch (type) {
     case "SET_USERS":
@@ -16,9 +16,11 @@ const messageReducer = (state, { type, payload }) => {
       };
     case "SET_USER_MESSAGES":
       usersCopy = [...state.users];
-      usersIndex = usersCopy.findIndex((u) => u.username === username);
-      usersCopy[usersIndex] = {
-        ...usersCopy[usersIndex],
+
+      userIndex = usersCopy.findIndex((u) => u.username === username);
+
+      usersCopy[userIndex] = {
+        ...usersCopy[userIndex],
         messages,
       };
 
@@ -39,17 +41,59 @@ const messageReducer = (state, { type, payload }) => {
     case "ADD_MESSAGE":
       usersCopy = [...state.users];
 
-      usersIndex = usersCopy.findIndex((u) => u.username === username);
+      userIndex = usersCopy.findIndex((u) => u.username === username);
+
+      message.reactions = [];
 
       let newUser = {
-        ...usersCopy[usersIndex],
-        messages: usersCopy[usersIndex].messages
-          ? [message, ...usersCopy[usersIndex].messages]
+        ...usersCopy[userIndex],
+        messages: usersCopy[userIndex].messages
+          ? [message, ...usersCopy[userIndex].messages]
           : null,
         latestMessage: message,
       };
 
-      usersCopy[usersIndex] = newUser;
+      usersCopy[userIndex] = newUser;
+
+      return {
+        ...state,
+        users: usersCopy,
+      };
+    case "ADD_REACTION":
+      usersCopy = [...state.users];
+
+      userIndex = usersCopy.findIndex((u) => u.username === username);
+
+      let userCopy = {
+        ...usersCopy[userIndex],
+      };
+
+      const messageIndex = userCopy.messages?.findIndex(
+        (m) => m.uuid === reaction.message.uuid,
+      );
+
+      if (messageIndex > -1) {
+        let messagesCopy = [...userCopy.messages];
+        let reactionsCopy = [...messagesCopy[messageIndex].reactions];
+
+        const reactionIndex = reactionsCopy.findIndex(
+          (r) => r.uuid === reaction.uuid,
+        );
+
+        if (reactionIndex > -1) {
+          reactionsCopy[reactionIndex] = reaction;
+        } else {
+          reactionsCopy = [...reactionsCopy, reaction];
+        }
+
+        messagesCopy[messageIndex] = {
+          ...messagesCopy[messageIndex],
+          reactions: reactionsCopy,
+        };
+
+        userCopy = { ...userCopy, messages: messagesCopy };
+        usersCopy[userIndex] = userCopy;
+      }
 
       return {
         ...state,

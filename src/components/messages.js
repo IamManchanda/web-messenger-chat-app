@@ -34,7 +34,8 @@ const Messages = () => {
         },
       });
     }
-  }, [getMessages, selectedUser]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedUser]);
 
   useEffect(() => {
     if (messagesData) {
@@ -47,7 +48,7 @@ const Messages = () => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, messagesData]);
+  }, [messagesData]);
 
   const handleSubmitMessage = (event) => {
     event.preventDefault();
