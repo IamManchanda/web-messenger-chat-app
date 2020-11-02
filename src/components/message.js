@@ -8,6 +8,7 @@ import { useMutation } from "@apollo/client";
 
 const Message = ({ message }) => {
   const reactions = ["❤️", "😆", "😯", "😢", "😡", "👍", "👎"];
+
   const [reactToMessage] = useMutation(REACT_TO_MESSAGE, {
     onCompleted(data) {
       setShowPopOver(false);
@@ -22,6 +23,8 @@ const Message = ({ message }) => {
   const received = !sent;
   const placement = sent ? "right" : "left";
   const [showPopOver, setShowPopOver] = useState(false);
+
+  const reactedIcons = [...new Set(message.reactions.map((r) => r.content))];
 
   const handleReaction = (reaction) => {
     reactToMessage({
@@ -81,11 +84,16 @@ const Message = ({ message }) => {
         transition={false}
       >
         <div
-          className={classNames("py-2 px-3 rounded-pill", {
+          className={classNames("py-2 px-3 rounded-pill position-relative", {
             "bg-primary": sent,
             "bg-secondary": received,
           })}
         >
+          {message.reactions.length > 0 && (
+            <div className="reactions-cell bg-secondary p-1 rounded-pill">
+              {reactedIcons} {message.reactions.length}
+            </div>
+          )}
           <p
             className={classNames({
               "text-white": sent,

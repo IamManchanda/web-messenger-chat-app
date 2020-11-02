@@ -62,8 +62,8 @@ const Messages = () => {
   };
 
   return (
-    <Col xs={8}>
-      <div className="messages-box d-flex flex-column-reverse">
+    <Col xs={8} className="p-0">
+      <div className="messages-box d-flex flex-column-reverse p-3">
         {!messages && !messagesLoading ? (
           <p className="info-text">Select a friend</p>
         ) : messagesLoading ? (
@@ -85,9 +85,9 @@ const Messages = () => {
           </p>
         ) : null}
       </div>
-      <div>
+      <div className="px-3 py-2">
         <Form onSubmit={handleSubmitMessage}>
-          <Form.Group className="d-flex align-items-center">
+          <Form.Group className="d-flex align-items-center mt-0">
             <Form.Control
               type="text"
               className="message-input rounded-pill p-4 bg-secondary border-0"
