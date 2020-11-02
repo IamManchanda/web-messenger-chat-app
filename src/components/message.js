@@ -3,9 +3,19 @@ import { useAuthState } from "../context/auth";
 import dayjs from "dayjs";
 import { Button, OverlayTrigger, Popover, Tooltip } from "react-bootstrap";
 import { useState } from "react";
+import { REACT_TO_MESSAGE } from "../constants/graphql/mutations";
+import { useMutation } from "@apollo/client";
 
 const Message = ({ message }) => {
   const reactions = ["❤️", "😆", "😯", "😢", "😡", "👍", "👎"];
+  const [reactToMessage] = useMutation(REACT_TO_MESSAGE, {
+    onCompleted(data) {
+      setShowPopOver(false);
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
 
   const { user } = useAuthState();
   const sent = message.from === user.username;
@@ -14,7 +24,12 @@ const Message = ({ message }) => {
   const [showPopOver, setShowPopOver] = useState(false);
 
   const handleReaction = (reaction) => {
-    console.log({ reaction, message });
+    reactToMessage({
+      variables: {
+        uuid: message.uuid,
+        content: reaction,
+      },
+    });
   };
 
   const reactButton = (
@@ -24,6 +39,7 @@ const Message = ({ message }) => {
       show={showPopOver}
       onToggle={setShowPopOver}
       transition={false}
+      /* rootClose */
       overlay={
         <Popover className="rounded-pill">
           <Popover.Content className="d-flex align-items-center p-1 react-icon-button-popover">

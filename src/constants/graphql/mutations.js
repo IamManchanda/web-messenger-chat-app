@@ -31,3 +31,11 @@ export const SEND_MESSAGE = gql`
     }
   }
 `;
+
+export const REACT_TO_MESSAGE = gql`
+  mutation ReactToMessage($uuid: String!, $content: String!) {
+    reactToMessage(uuid: $uuid, content: $content) {
+      uuid
+    }
+  }
+`;
